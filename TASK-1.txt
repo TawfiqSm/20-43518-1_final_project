@@ -1,0 +1,38 @@
+<?php
+//create connection
+include("database/db.php");
+
+// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+
+// Insert Data
+@$month=$_POST['Bill_month'];
+@$issuedate=$_POST['Bill_issue_date'];
+@$duedate=$_POST['Bill_due_date'];
+@$surcharge =$_POST['Surcharge'];
+
+$sql = "INSERT INTO billing_month (Bill_month,Bill_issue_date,Bill_due_date,Surcharge) 
+values('$month','$issuedate','$duedate','$surcharge')";
+
+if(mysqli_query($link, $sql)){
+  $res = "Records added successfully.";
+
+  // Update Registration Arrears query
+  $sql_upadte = "Update registration ...."
+  if(mysqli_query($link, $sql_update)){
+    $res .= "<br>Registration record updated successfully.";
+  }else{
+    $res .= "<br>ERROR: Could not able to execute.<br>".$sql_update."<br>".mysqli_error($link);
+  }
+
+  echo($res);
+
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+}
+
+// close connection
+mysqli_close($link);
+?>
